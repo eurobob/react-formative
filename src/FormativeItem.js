@@ -5,7 +5,7 @@ class FormativeItem extends React.Component {
     super();
   }
   render() {
-    return this.props.children;
+    return <div style={{ position: 'absolute' }}>{this.props.children}</div>;
   }
 }
 
