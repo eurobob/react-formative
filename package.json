@@ -2,7 +2,7 @@
   "name": "react-formative",
   "version": "0.0.0",
   "description": "Display form items sequentially. It's like if Typeform had an illegitimate child with a slideshow.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
