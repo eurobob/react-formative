@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/eurobob/react-formative/issues"
   },
-  "homepage": "https://github.com/eurobob/react-formative#readme"
+  "homepage": "https://github.com/eurobob/react-formative#readme",
+  "dependencies": {
+    "react": "^16.2.0"
+  }
 }
