@@ -6,6 +6,8 @@ class Formative extends React.Component {
     this.state = {
       index: 0,
     };
+    this.nextItem = this.nextItem.bind(this);
+    this.prevItem = this.prevItem.bind(this);
   }
   nextItem() {
     this.setState({ index: this.state.index + 1 });
@@ -18,7 +20,8 @@ class Formative extends React.Component {
     return (
       <div>
         {this.props.children[index]}
-        {index > 0 && <button>Back</button>}
+        {index > 0 && <button onClick={this.prevItem}>Back</button>}
+        <button onClick={this.nextItem}>Next</button>
       </div>
     );
   }
