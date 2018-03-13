@@ -5,11 +5,15 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node_modules/babel-cli/bin/babel.js src --out-dir lib",
+    "build": "npm run build:clean && npm run build:js && npm run build:css",
+    "build:clean": "rm -rf lib/*",
+    "build:css": "cp src/css/*.css lib",
+    "build:js": "node_modules/babel-cli/bin/babel.js src --out-dir lib",
     "watch": "npm-watch"
   },
   "watch": {
-    "build": "src/**/*.js"
+    "build:js": "src/**/*.js",
+    "build:css": "src/**/*.css"
   },
   "babel": {
     "presets": [
@@ -30,7 +34,9 @@
   },
   "homepage": "https://github.com/eurobob/react-formative#readme",
   "dependencies": {
-    "react": "^16.2.0"
+    "proptypes": "^1.1.0",
+    "react": "^16.2.0",
+    "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
