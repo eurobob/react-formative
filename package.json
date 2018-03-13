@@ -1,0 +1,19 @@
+{
+  "name": "react-formative",
+  "version": "0.0.0",
+  "description": "Display form items sequentially. It's like if Typeform had an illegitimate child with a slideshow.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eurobob/react-formative.git"
+  },
+  "author": "Rob Matwiejczyk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eurobob/react-formative/issues"
+  },
+  "homepage": "https://github.com/eurobob/react-formative#readme"
+}
