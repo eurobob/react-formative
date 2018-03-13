@@ -2,9 +2,22 @@
   "name": "react-formative",
   "version": "0.0.0",
   "description": "Display form items sequentially. It's like if Typeform had an illegitimate child with a slideshow.",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node_modules/babel-cli/bin/babel.js src --out-dir lib",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build": "src/**/*.js"
+  },
+  "babel": {
+    "presets": [
+      "es2017"
+    ],
+    "plugins": [
+      "transform-react-jsx"
+    ]
   },
   "repository": {
     "type": "git",
@@ -18,5 +31,12 @@
   "homepage": "https://github.com/eurobob/react-formative#readme",
   "dependencies": {
     "react": "^16.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "npm-watch": "^0.3.0"
   }
 }
