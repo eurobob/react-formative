@@ -4,10 +4,20 @@ import PropTypes from 'proptypes';
 const DOMExclusions = ['fElement', 'fHeading', 'fComponent', 'fFields'];
 
 class FormativeItem extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      fieldProps: this.validateFieldProps(props),
+    };
+    this.renderField = this.renderField.bind(this);
+    this.renderFields = this.renderFields.bind(this);
   }
-  validateChildProps(props) {
+
+  /**
+    Since we are passing down props to a child component we need to remove
+    Formative-specific props so they don't appear in the DOM
+  */
+  validateFieldProps(props) {
     return Object.keys(props).reduce((acc, key) => {
       if (key && DOMExclusions.indexOf(key) < 0) {
         return Object.assign(acc, { [key]: props[key] });
@@ -15,42 +25,47 @@ class FormativeItem extends React.Component {
       return acc;
     }, {});
   }
-  render() {
-    const {
-      fHeading,
-      fComponent,
-      fElement,
-      name,
-      value,
-      label,
-      type,
-      component,
-    } = this.props;
-    const childProps = this.validateChildProps(this.props);
 
-    let child;
-    if (fComponent) {
-      child = React.createElement(fComponent, childProps);
+  /**
+    Render individual fields.
+    @TODO label options to hide, align & wrap
+  */
+  renderField(element, props = {}) {
+    return React.createElement('label', { key: props.key }, [
+      React.createElement(
+        element,
+        Object.assign({}, this.state.fieldProps, props),
+      ),
+      props.label,
+    ]);
+  }
+
+  /**
+    Render all fields
+  */
+  renderFields() {
+    const { fComponent, fElement, fFields } = this.props;
+    if (fFields.length) {
+      return fFields.map((field, index) =>
+        this.renderField(fComponent || fElement, {
+          value: field,
+          label: field,
+          key: index,
+        }),
+      );
     } else {
-      child = React.createElement(fElement, childProps);
+      return this.renderField(fComponent || fElement, {
+        key: 'bleh',
+        label: this.props.label || this.props.name,
+      });
     }
+  }
 
+  render() {
     return (
       <div>
-        <h2>{fHeading}</h2>
-        {(type === 'checkbox' || type === 'radio') && (
-          <label>
-            {child}
-            {label || name}
-          </label>
-        )}
-        {type !== 'checkbox' &&
-          type !== 'radio' && (
-            <label>
-              {label || name}
-              {child}
-            </label>
-          )}
+        {this.props.fHeading && <h2>{this.props.fHeading}</h2>}
+        {this.renderFields()}
       </div>
     );
   }
