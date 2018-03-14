@@ -105,10 +105,9 @@ FormativeItem.defaultProps = {
   name: '',
   label: null,
   value: '',
+  // @TODO default props should go in the formative parent
   type: 'text',
   fElement: 'input',
-  fHeading: null,
-  fComponent: null,
   fFields: [],
 };
 
