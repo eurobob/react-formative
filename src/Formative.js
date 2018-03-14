@@ -40,11 +40,7 @@ class Formative extends React.Component {
             Next
           </button>
         )}
-        {index === children.length - 1 && (
-          <button type="submit">
-            Finish
-          </button>
-        )}
+        {index === children.length - 1 && <button type="submit">Finish</button>}
       </div>
     );
   }
