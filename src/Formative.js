@@ -19,19 +19,32 @@ class Formative extends React.Component {
   }
   render() {
     const { index } = this.state;
-    const { animated, animation } = this.props;
+    const { animated, animation, children } = this.props;
     return (
       <div>
         {animated && (
           <TransitionGroup>
             <CSSTransition key={index} timeout={1000} classNames={animation}>
-              {this.props.children[index]}
+              {children[index]}
             </CSSTransition>
           </TransitionGroup>
         )}
-        {!animated && this.props.children[index]}
-        {index > 0 && <button onClick={this.prevItem}>Back</button>}
-        <button onClick={this.nextItem}>Next</button>
+        {!animated && children[index]}
+        {index > 0 && (
+          <button type="button" onClick={this.prevItem}>
+            Back
+          </button>
+        )}
+        {index < children.length - 1 && (
+          <button type="button" onClick={this.nextItem}>
+            Next
+          </button>
+        )}
+        {index === children.length - 1 && (
+          <button type="submit">
+            Finish
+          </button>
+        )}
       </div>
     );
   }
