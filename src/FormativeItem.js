@@ -42,17 +42,28 @@ class FormativeItem extends React.Component {
 
   /**
     Render all fields
+    @TODO tidy this up for multiple fields
   */
   renderFields() {
     const { fComponent, fElement, fFields } = this.props;
     if (fFields.length) {
-      return fFields.map((field, index) =>
-        this.renderField(fComponent || fElement, {
-          value: field,
-          label: field,
-          key: index,
-        }),
-      );
+      return fFields.map((field, index) => {
+        let labelValue;
+        if (typeof field === 'string') {
+          labelValue = {
+            value: field,
+            label: field,
+            key: index,
+          };
+        } else {
+          labelValue = {
+            value: field.value,
+            label: field.label,
+            key: index,
+          };
+        }
+        return this.renderField(fComponent || fElement, labelValue);
+      });
     } else {
       return this.renderField(fComponent || fElement, {
         key: 'bleh',
