@@ -10,6 +10,7 @@ class Formative extends React.Component {
     };
     this.nextItem = this.nextItem.bind(this);
     this.prevItem = this.prevItem.bind(this);
+    this.childrenWithProps = this.childrenWithProps.bind(this);
   }
   nextItem() {
     this.setState({ index: this.state.index + 1 });
@@ -17,19 +18,26 @@ class Formative extends React.Component {
   prevItem() {
     this.setState({ index: this.state.index - 1 });
   }
+  childrenWithProps(children) {
+    return React.Children.map(children, child =>
+      React.cloneElement(child, this.props),
+    );
+  }
   render() {
     const { index } = this.state;
     const { animated, animation, children } = this.props;
+    const childrenWithProps = this.childrenWithProps(children);
+
     return (
       <div>
         {animated && (
           <TransitionGroup>
             <CSSTransition key={index} timeout={1000} classNames={animation}>
-              {children[index]}
+              {childrenWithProps[index]}
             </CSSTransition>
           </TransitionGroup>
         )}
-        {!animated && children[index]}
+        {!animated && childrenWithProps[index]}
         {index > 0 && (
           <button type="button" onClick={this.prevItem}>
             Back

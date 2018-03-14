@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'proptypes';
 
-const DOMExclusions = ['fElement', 'fHeading', 'fComponent', 'fFields'];
+const DOMExclusions = [
+  'fElement',
+  'fHeading',
+  'fComponent',
+  'fFields',
+  'animated',
+  'animation',
+  'children',
+];
 
 class FormativeItem extends React.Component {
   constructor(props) {
