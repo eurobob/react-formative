@@ -54,7 +54,7 @@ class FormativeItem extends React.Component {
   */
   renderFields() {
     const { fComponent, fElement, fFields } = this.props;
-    if (fFields.length) {
+    if (fFields && fFields.length) {
       return fFields.map((field, index) => {
         let labelValue;
         if (typeof field === 'string') {
@@ -106,9 +106,9 @@ FormativeItem.defaultProps = {
   label: null,
   value: '',
   // @TODO default props should go in the formative parent
-  type: 'text',
-  fElement: 'input',
-  fFields: [],
+  // type: 'text',
+  // fElement: 'input',
+  // fFields: [],
 };
 
 export default FormativeItem;
