@@ -29,7 +29,7 @@ class Formative extends React.Component {
     const childrenWithProps = this.childrenWithProps(children);
 
     return (
-      <div>
+      <div style={{ textAlign: 'center' }}>
         {animated && (
           <TransitionGroup>
             <CSSTransition key={index} timeout={1000} classNames={animation}>
