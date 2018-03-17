@@ -3,7 +3,7 @@ import React from 'react';
 function FormativeProgress(props) {
   return (
     <ul>
-      {props.items.map((item, index) => (
+      {props.fields.map((field, index) => (
         <li
           key={index}
           style={{

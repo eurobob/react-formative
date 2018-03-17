@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'proptypes';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import FormativeProgress from './FormativeProgress';
+import FormativeItem from './FormativeItem';
 
 class Formative extends React.Component {
   constructor() {
@@ -9,59 +9,35 @@ class Formative extends React.Component {
     this.state = {
       index: 0,
     };
-    this.nextItem = this.nextItem.bind(this);
-    this.prevItem = this.prevItem.bind(this);
-    this.childrenWithProps = this.childrenWithProps.bind(this);
+    this.nextField = this.nextField.bind(this);
+    this.prevField = this.prevField.bind(this);
   }
-  nextItem() {
+  nextField() {
     this.setState({ index: this.state.index + 1 });
   }
-  prevItem() {
+  prevField() {
     this.setState({ index: this.state.index - 1 });
-  }
-  childrenWithProps(children) {
-    return React.Children.map(children, child =>
-      React.cloneElement(
-        child,
-        Object.assign(
-          {
-            fNext: this.nextItem,
-            fPrev: this.prevItem,
-          },
-          this.props,
-          child.props,
-        ),
-      ),
-    );
   }
   render() {
     const { index } = this.state;
-    const { animated, animation, children } = this.props;
-    const childrenWithProps = this.childrenWithProps(children);
+    const { fields } = this.props;
 
     return (
-      <div style={{ textAlign: 'center' }}>
-        <FormativeProgress items={children} index={index} />
-        {animated && (
-          <TransitionGroup>
-            <CSSTransition key={index} timeout={1000} classNames={animation}>
-              {childrenWithProps[index]}
-            </CSSTransition>
-          </TransitionGroup>
-        )}
-        {!animated && childrenWithProps[index]}
-        {index > 0 && (
-          <button type="button" onClick={this.prevItem}>
-            Back
-          </button>
-        )}
-        {index < children.length - 1 && (
-          <button type="button" onClick={this.nextItem}>
-            Next
-          </button>
-        )}
-        {index === children.length - 1 && <button type="submit">Finish</button>}
-      </div>
+      <form className="f-c-form">
+        <FormativeProgress fields={fields} index={index} />
+        <ul>
+          {fields.map((field, fieldIndex) => (
+            <FormativeItem
+              key={fieldIndex}
+              {...field}
+              nextField={this.nextField}
+            />
+          ))}
+        </ul>
+        <button type="button" onClick={this.nextField}>
+          Continue
+        </button>
+      </form>
     );
   }
 }
