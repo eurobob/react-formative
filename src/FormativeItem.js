@@ -35,12 +35,15 @@ class FormativeItem extends React.Component {
   render() {
     return (
       <li>
-        <label htmlFor="">{this.props.label}</label>
+        {this.props.label && (
+          <label htmlFor={this.props.name}>{this.props.label}</label>
+        )}
         {React.createElement(
           this.props.element,
           Object.assign(
             {
               onKeyPress: this.handleKeyPress,
+              id: this.props.name,
             },
             this.state.fieldProps,
           ),

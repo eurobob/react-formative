@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'proptypes';
+import FormativeNavigation from './FormativeNavigation';
 import FormativeProgress from './FormativeProgress';
 import FormativeItem from './FormativeItem';
 
@@ -25,6 +26,7 @@ class Formative extends React.Component {
     return (
       <form className="f-c-form">
         <FormativeProgress fields={fields} index={index} />
+        <FormativeNavigation fields={fields} index={index} />
         <ul>
           {fields.map((field, fieldIndex) => (
             <FormativeItem

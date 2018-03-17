@@ -1,18 +1,16 @@
 import React from 'react';
 
 function FormativeProgress(props) {
+  const percent = props.index / props.fields.length * 100;
   return (
-    <ul>
-      {props.fields.map((field, index) => (
-        <li
-          key={index}
-          style={{
-            color: index === props.index ? 'black' : 'white',
-          }}>
-          {index++}
-        </li>
-      ))}
-    </ul>
+    <div className="f-c-progress">
+      <div
+        className="f-c-progress__inner"
+        style={{
+          transform: `translate(${percent}%, 0)`,
+        }}
+      />
+    </div>
   );
 }
 
