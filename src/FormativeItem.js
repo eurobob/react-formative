@@ -6,6 +6,9 @@ const DOMExclusions = [
   'fHeading',
   'fComponent',
   'fFields',
+  'fHideInput',
+  'fNext',
+  'fPrev',
   'animated',
   'animation',
   'children',
@@ -19,6 +22,7 @@ class FormativeItem extends React.Component {
     };
     this.renderField = this.renderField.bind(this);
     this.renderFields = this.renderFields.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   /**
@@ -32,6 +36,13 @@ class FormativeItem extends React.Component {
       }
       return acc;
     }, {});
+  }
+
+  handleKeyPress(event) {
+    // @TODO allow shift+enter for new line
+    if (event.key == 'Enter') {
+      this.props.fNext();
+    }
   }
 
   /**
@@ -53,30 +64,41 @@ class FormativeItem extends React.Component {
     @TODO tidy this up for multiple fields
   */
   renderFields() {
-    const { fComponent, fElement, fFields } = this.props;
+    const { fComponent, fElement, fFields, fHideInput } = this.props;
+    let props = {
+      onKeyPress: this.handleKeyPress,
+    };
     if (fFields && fFields.length) {
+      if (fHideInput) {
+        props = Object.assign(props, {
+          hidden: true,
+        });
+      }
       return fFields.map((field, index) => {
-        let labelValue;
+        props = Object.assign(props, {
+          key: index,
+        });
         if (typeof field === 'string') {
-          labelValue = {
+          props = Object.assign(props, {
             value: field,
             label: field,
-            key: index,
-          };
+          });
         } else {
-          labelValue = {
-            value: field.value,
-            label: field.label,
-            key: index,
-          };
+          props = Object.assign(props, field);
         }
-        return this.renderField(fComponent || fElement, labelValue);
+        return this.renderField(fComponent || fElement, props);
       });
     } else {
-      return this.renderField(fComponent || fElement, {
+      if (fHideInput) {
+        props = Object.assign(props, {
+          hidden: true,
+        });
+      }
+      props = Object.assign(props, {
         key: 'bleh',
         label: this.props.label || this.props.name,
       });
+      return this.renderField(fComponent || fElement, props);
     }
   }
 

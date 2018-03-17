@@ -20,7 +20,17 @@ class Formative extends React.Component {
   }
   childrenWithProps(children) {
     return React.Children.map(children, child =>
-      React.cloneElement(child, Object.assign({}, this.props, child.props)),
+      React.cloneElement(
+        child,
+        Object.assign(
+          {
+            fNext: this.nextItem,
+            fPrev: this.prevItem,
+          },
+          this.props,
+          child.props,
+        ),
+      ),
     );
   }
   render() {
