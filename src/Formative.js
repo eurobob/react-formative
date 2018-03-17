@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'proptypes';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import FormativeProgress from './FormativeProgress';
 
 class Formative extends React.Component {
   constructor() {
@@ -40,6 +41,7 @@ class Formative extends React.Component {
 
     return (
       <div style={{ textAlign: 'center' }}>
+        <FormativeProgress items={children} index={index} />
         {animated && (
           <TransitionGroup>
             <CSSTransition key={index} timeout={1000} classNames={animation}>
