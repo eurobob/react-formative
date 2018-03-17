@@ -40,7 +40,7 @@ class FormativeItem extends React.Component {
 
   handleKeyPress(event) {
     // @TODO allow shift+enter for new line
-    if (event.key == 'Enter') {
+    if (event.key == 'Enter' && !event.shiftKey) {
       this.props.fNext();
     }
   }
