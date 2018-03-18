@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'proptypes';
 
-const DOMExclusions = ['nextField'];
+const DOMExclusions = ['nextField', 'handleChange'];
 
 class FormativeItem extends React.Component {
   constructor(props) {
@@ -10,6 +10,12 @@ class FormativeItem extends React.Component {
       fieldProps: this.validateFieldProps(props),
     };
     this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      fieldProps: this.validateFieldProps(nextProps),
+    });
   }
 
   /**
@@ -43,6 +49,7 @@ class FormativeItem extends React.Component {
           Object.assign(
             {
               onKeyPress: this.handleKeyPress,
+              onChange: this.props.handleChange,
               id: this.props.name,
             },
             this.state.fieldProps,

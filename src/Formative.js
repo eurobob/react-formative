@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'proptypes';
+import FormativeCounter from './FormativeCounter';
 import FormativeNavigation from './FormativeNavigation';
 import FormativeProgress from './FormativeProgress';
 import FormativeItem from './FormativeItem';
 
 class Formative extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       index: 0,
+      fields: props.fields,
     };
     this.nextField = this.nextField.bind(this);
     this.prevField = this.prevField.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   nextField() {
     this.setState({ index: this.state.index + 1 });
@@ -19,20 +22,34 @@ class Formative extends React.Component {
   prevField() {
     this.setState({ index: this.state.index - 1 });
   }
+  handleChange(event) {
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        [event.target.name]: {
+          ...this.state.fields[event.target.name],
+          value: event.target.value,
+        },
+      },
+    });
+  }
   render() {
-    const { index } = this.state;
-    const { fields } = this.props;
+    const { index, fields } = this.state;
+    const fieldNames = Object.keys(fields);
 
     return (
-      <form className="f-c-form">
-        <FormativeProgress fields={fields} index={index} />
-        <FormativeNavigation fields={fields} index={index} />
+      <form className={`${this.props.className} f-c-form`}>
+        <FormativeCounter fields={fieldNames} index={index} />
+        <FormativeProgress fields={fieldNames} index={index} />
+        <FormativeNavigation fields={fieldNames} index={index} />
         <ul>
-          {fields.map((field, fieldIndex) => (
+          {fieldNames.map(name => (
             <FormativeItem
-              key={fieldIndex}
-              {...field}
+              key={name}
+              {...fields[name]}
+              name={name}
               nextField={this.nextField}
+              handleChange={this.handleChange}
             />
           ))}
         </ul>
