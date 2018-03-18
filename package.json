@@ -35,6 +35,7 @@
   },
   "homepage": "https://github.com/eurobob/react-formative#readme",
   "dependencies": {
+    "immutability-helper": "^2.6.6",
     "proptypes": "^1.1.0",
     "react": "^16.2.0",
     "react-transition-group": "^2.2.1"
