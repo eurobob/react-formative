@@ -15,6 +15,7 @@ class Formative extends React.Component {
     this.nextField = this.nextField.bind(this);
     this.prevField = this.prevField.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.navigate = this.navigate.bind(this);
   }
   nextField() {
     this.setState({ index: this.state.index + 1 });
@@ -33,6 +34,10 @@ class Formative extends React.Component {
       },
     });
   }
+  navigate(index) {
+    console.log(index);
+    this.setState({ index });
+  }
   render() {
     const { index, fields } = this.state;
     const fieldNames = Object.keys(fields);
@@ -41,8 +46,12 @@ class Formative extends React.Component {
       <form className={`${this.props.className} f-c-form`}>
         <FormativeCounter fields={fieldNames} index={index} />
         <FormativeProgress fields={fieldNames} index={index} />
-        <FormativeNavigation fields={fieldNames} index={index} />
-        <ul>
+        <FormativeNavigation
+          fields={fieldNames}
+          index={index}
+          navigate={this.navigate}
+        />
+        <ul style={{ listStyle: 'none' }}>
           {fieldNames.map(name => (
             <FormativeItem
               key={name}

@@ -42,7 +42,9 @@ class FormativeItem extends React.Component {
     return (
       <li>
         {this.props.label && (
-          <label htmlFor={this.props.name}>{this.props.label}</label>
+          <label htmlFor={this.props.name} style={{ display: 'block' }}>
+            {this.props.label}
+          </label>
         )}
         {React.createElement(
           this.props.element,

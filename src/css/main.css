@@ -10,6 +10,22 @@
   right: 30px;
 }
 
+.f-c-navigation {
+  list-style: none;
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transform: translate(0, -50%);
+}
+
+.f-c-navigation__item {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
 .f-c-progress {
   height: 20px;
   position: absolute;
