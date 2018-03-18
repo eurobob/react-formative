@@ -1,7 +1,7 @@
 import React from 'react';
 
 function FormativeProgress(props) {
-  const percent = props.index / props.fields.length * 100;
+  const percent = props.total / props.fields.length * 100;
   return (
     <div className="f-c-progress">
       <div

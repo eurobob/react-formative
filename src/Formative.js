@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'proptypes';
+import update from 'immutability-helper';
+
 import FormativeCounter from './FormativeCounter';
 import FormativeNavigation from './FormativeNavigation';
 import FormativeProgress from './FormativeProgress';
@@ -10,6 +12,7 @@ class Formative extends React.Component {
     super(props);
     this.state = {
       index: 0,
+      total: 0,
       fields: props.fields,
     };
     this.nextField = this.nextField.bind(this);
@@ -18,47 +21,47 @@ class Formative extends React.Component {
     this.navigate = this.navigate.bind(this);
   }
   nextField() {
-    this.setState({ index: this.state.index + 1 });
+    this.setState({
+      index: this.state.index + 1,
+      total: this.state.total + 1,
+    });
   }
   prevField() {
     this.setState({ index: this.state.index - 1 });
   }
-  handleChange(event) {
+  handleChange(event, index) {
+    console.log(index);
     this.setState({
-      fields: {
-        ...this.state.fields,
-        [event.target.name]: {
-          ...this.state.fields[event.target.name],
-          value: event.target.value,
+      fields: update(this.state.fields, {
+        [index]: {
+          value: { $set: event.target.value },
         },
-      },
+      }),
     });
   }
   navigate(index) {
-    console.log(index);
     this.setState({ index });
   }
   render() {
-    const { index, fields } = this.state;
-    const fieldNames = Object.keys(fields);
+    const { index, fields, total } = this.state;
 
     return (
       <form className={`${this.props.className} f-c-form`}>
-        <FormativeCounter fields={fieldNames} index={index} />
-        <FormativeProgress fields={fieldNames} index={index} />
+        <FormativeCounter fields={fields} index={index} />
+        <FormativeProgress fields={fields} total={total} />
         <FormativeNavigation
-          fields={fieldNames}
+          fields={fields}
           index={index}
+          total={total}
           navigate={this.navigate}
         />
         <ul style={{ listStyle: 'none' }}>
-          {fieldNames.map(name => (
+          {fields.map((field, index) => (
             <FormativeItem
-              key={name}
-              {...fields[name]}
-              name={name}
+              key={index}
+              {...field}
               nextField={this.nextField}
-              handleChange={this.handleChange}
+              handleChange={event => this.handleChange(event, index)}
             />
           ))}
         </ul>
