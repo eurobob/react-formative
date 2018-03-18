@@ -40,9 +40,9 @@ class FormativeItem extends React.Component {
 
   render() {
     return (
-      <li>
+      <li className="f-c-list__item">
         {this.props.label && (
-          <label htmlFor={this.props.name} style={{ display: 'block' }}>
+          <label htmlFor={this.props.name} className="f-c-label">
             {this.props.label}
           </label>
         )}
@@ -53,6 +53,7 @@ class FormativeItem extends React.Component {
               onKeyPress: this.handleKeyPress,
               onChange: this.props.handleChange,
               id: this.props.name,
+              className: 'f-c-input',
             },
             this.state.fieldProps,
           ),

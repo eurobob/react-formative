@@ -21,10 +21,12 @@ class Formative extends React.Component {
     this.navigate = this.navigate.bind(this);
   }
   nextField() {
-    this.setState({
-      index: this.state.index + 1,
-      total: this.state.total + 1,
-    });
+    if (this.state.fields[this.state.index].value) {
+      this.setState({
+        index: this.state.index + 1,
+        total: this.state.total + 1,
+      });
+    }
   }
   prevField() {
     this.setState({ index: this.state.index - 1 });
@@ -55,7 +57,7 @@ class Formative extends React.Component {
           total={total}
           navigate={this.navigate}
         />
-        <ul style={{ listStyle: 'none' }}>
+        <ul className="f-c-list">
           {fields.map((field, index) => (
             <FormativeItem
               key={index}
@@ -65,7 +67,10 @@ class Formative extends React.Component {
             />
           ))}
         </ul>
-        <button type="button" onClick={this.nextField}>
+        <button
+          type="button"
+          onClick={this.nextField}
+          disabled={!this.state.fields[this.state.index].value}>
           Continue
         </button>
       </form>
