@@ -4,6 +4,18 @@
   width: 100%;
 }
 
+.f-c-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.f-c-list__item {
+  max-width: 500px;
+  width: 90%;
+  margin: 0 auto;
+}
+
 .f-c-counter {
   position: absolute;
   top: 30px;
@@ -42,4 +54,17 @@
   height: 100%;
   width: 100%;
   transition: transform 0.3s ease-in-out;
+}
+
+.f-c-label {
+  display: block;
+}
+
+.f-c-input {
+  background-color: transparent;
+  border: 4px solid #fff;
+  color: #fff;
+  width: 100%;
+  margin-top: 1em;
+  padding: 20px;
 }
