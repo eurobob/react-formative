@@ -110,7 +110,7 @@
 .f-a-from-bottom--enter-active {
   transform: translate(0, 0);
   opacity: 1;
-  transition: transform .5s ease-in-out, opacity .5s ease-in-out;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 .f-a-from-bottom--exit {
   transform: translate(0, 0);
@@ -119,9 +119,24 @@
 .f-a-from-bottom--exit-active {
   transform: translate(0, -200%);
   opacity: 0;
-  transition: transform .5s ease-in-out, opacity .5s ease-in-out;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
-.f-a-from-bottom--appear {
+
+.f-a-from-top--enter {
+  transform: translate(0, -200%);
+  opacity: 0;
 }
-.f-a-from-bottom--appear-active {
+.f-a-from-top--enter-active {
+  transform: translate(0, 0);
+  opacity: 1;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+.f-a-from-top--exit {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+.f-a-from-top--exit-active {
+  transform: translate(0, 200%);
+  opacity: 0;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }

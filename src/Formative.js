@@ -59,7 +59,13 @@ class Formative extends React.Component {
     });
   }
   navigate(index) {
-    this.setState({ index });
+    let animationClass;
+    if (index < this.state.index) {
+      animationClass = 'from-top';
+    } else if (index > this.state.index) {
+      animationClass = 'from-bottom';
+    }
+    this.setState({ index, animationClass });
   }
   render() {
     const { index, fields, total, animationClass } = this.state;
