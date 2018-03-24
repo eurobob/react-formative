@@ -13,7 +13,12 @@
   },
   "watch": {
     "build:js": "src/**/*.js",
-    "build:css": "src/**/*.css"
+    "build:css": {
+      "patterns": [
+        "src/css"
+      ],
+      "extensions": "css"
+    }
   },
   "babel": {
     "presets": [
