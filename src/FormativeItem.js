@@ -46,18 +46,33 @@ class FormativeItem extends React.Component {
             {this.props.label}
           </label>
         )}
-        {React.createElement(
-          this.props.element,
-          Object.assign(
-            {
-              onKeyPress: this.handleKeyPress,
-              onChange: this.props.handleChange,
-              id: this.props.name,
-              className: 'f-c-input',
-            },
-            this.state.fieldProps,
-          ),
-        )}
+        {this.props.options &&
+          this.props.options.map(option => {
+            return React.createElement('label', null, [
+              React.createElement(
+                this.props.element,
+                Object.assign(option, {
+                  type: 'radio',
+                  name: this.props.name,
+                  onChange: this.props.handleChange,
+                }),
+              ),
+              option.label,
+            ]);
+          })}
+        {!this.props.options &&
+          React.createElement(
+            this.props.element,
+            Object.assign(
+              {
+                onKeyPress: this.handleKeyPress,
+                onChange: this.props.handleChange,
+                id: this.props.name,
+                className: 'f-c-input',
+              },
+              this.state.fieldProps,
+            ),
+          )}
       </li>
     );
   }
