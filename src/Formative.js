@@ -72,7 +72,11 @@ class Formative extends React.Component {
 
     return (
       <form className={`${this.props.className} f-c-form`}>
-        <FormativeCounter fields={fields} index={index} />
+        <FormativeCounter
+          fields={fields}
+          index={index}
+          animationClass={animationClass}
+        />
         <FormativeProgress fields={fields} total={total} />
         <FormativeNavigation
           fields={fields}

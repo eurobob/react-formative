@@ -32,6 +32,16 @@
   right: 30px;
 }
 
+.f-c-counter__incrementor {
+  position: relative;
+}
+
+.f-c-counter__number {
+  position: absolute;
+  display: block;
+  right: 5px;
+}
+
 .f-c-navigation {
   list-style: none;
   position: absolute;
