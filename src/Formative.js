@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'proptypes';
 import update from 'immutability-helper';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import FormativeCounter from './FormativeCounter';
 import FormativeNavigation from './FormativeNavigation';
 import FormativeProgress from './FormativeProgress';
 import FormativeItem from './FormativeItem';
+
+const childFactoryCreator = classNames => child =>
+  React.cloneElement(child, {
+    classNames,
+  });
 
 class Formative extends React.Component {
   constructor(props) {
@@ -14,6 +20,7 @@ class Formative extends React.Component {
       index: 0,
       total: 0,
       fields: props.fields,
+      animationClass: 'from-bottom',
     };
     this.nextField = this.nextField.bind(this);
     this.prevField = this.prevField.bind(this);
@@ -21,18 +28,28 @@ class Formative extends React.Component {
     this.navigate = this.navigate.bind(this);
   }
   nextField() {
+    // @TODO double check if user has gone back
     if (this.state.fields[this.state.index].value) {
       this.setState({
         index: this.state.index + 1,
         total: this.state.total + 1,
+        animationClass: 'from-bottom',
       });
     }
   }
   prevField() {
-    this.setState({ index: this.state.index - 1 });
+    this.setState(
+      {
+        animationClass: 'from-top',
+      },
+      () => {
+        this.setState({
+          index: this.state.index - 1,
+        });
+      },
+    );
   }
   handleChange(event, index) {
-    console.log(index);
     this.setState({
       fields: update(this.state.fields, {
         [index]: {
@@ -45,7 +62,7 @@ class Formative extends React.Component {
     this.setState({ index });
   }
   render() {
-    const { index, fields, total } = this.state;
+    const { index, fields, total, animationClass } = this.state;
 
     return (
       <form className={`${this.props.className} f-c-form`}>
@@ -57,17 +74,26 @@ class Formative extends React.Component {
           total={total}
           navigate={this.navigate}
         />
-        <ul className="f-c-list">
-          {fields.map((field, index) => (
+        <TransitionGroup
+          childFactory={childFactoryCreator(`f-a-${animationClass}-`)}
+          component="ul"
+          className="f-c-list">
+          <CSSTransition
+            key={index}
+            classNames={`f-a-${animationClass}-`}
+            timeout={500}
+            mountOnEnter={true}
+            unmountOnExit={true}>
             <FormativeItem
+              {...fields[index]}
               key={index}
-              {...field}
               nextField={this.nextField}
               handleChange={event => this.handleChange(event, index)}
             />
-          ))}
-        </ul>
+          </CSSTransition>
+        </TransitionGroup>
         <button
+          className="f-c-button f-c-button--continue"
           type="button"
           onClick={this.nextField}
           disabled={!this.state.fields[this.state.index].value}>
