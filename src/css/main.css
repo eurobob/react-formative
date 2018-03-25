@@ -5,6 +5,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding: 5% 10% 5% 5%;
 }
 
 .f-c-list {
@@ -22,7 +23,6 @@
 .f-c-list__item {
   max-width: 500px;
   width: 80%;
-  margin: 0 10% 0 5%;
   position: absolute;
 }
 
