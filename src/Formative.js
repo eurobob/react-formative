@@ -30,11 +30,14 @@ class Formative extends React.Component {
   nextField() {
     // @TODO double check if user has gone back
     if (this.state.fields[this.state.index].value) {
-      this.setState({
-        index: this.state.index + 1,
+      let state = {
         total: this.state.total + 1,
         animationClass: 'from-bottom',
-      });
+      };
+      if (this.state.index < this.state.fields.length - 1) {
+        state.index = this.state.index + 1;
+      }
+      this.setState(state);
     }
   }
   prevField() {
