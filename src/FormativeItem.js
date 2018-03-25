@@ -55,6 +55,8 @@ class FormativeItem extends React.Component {
                   type: 'radio',
                   name: this.props.name,
                   onChange: this.props.handleChange,
+                  checked: option.value === this.props.value ? true : false,
+                  defaultChecked: false,
                 }),
               ),
               option.label,
