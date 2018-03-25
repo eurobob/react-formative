@@ -18,7 +18,7 @@ class Formative extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 3,
+      index: 0,
       total: 0,
       fields: props.fields,
       animationClass: 'from-bottom',

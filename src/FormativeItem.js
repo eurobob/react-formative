@@ -71,6 +71,7 @@ class FormativeItem extends React.Component {
                 onChange: this.props.handleChange,
                 id: this.props.name,
                 className: 'f-c-input',
+                autoFocus: this.props.autoFocus
               },
               this.state.fieldProps,
             ),
@@ -94,6 +95,7 @@ FormativeItem.defaultProps = {
   value: '',
   type: 'text',
   element: 'input',
+  autoFocus: true,
 };
 
 export default FormativeItem;

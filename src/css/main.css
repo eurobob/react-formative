@@ -28,12 +28,15 @@
 
 .f-c-list__item--review {
   position: relative;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 
 .f-c-counter {
   position: absolute;
   top: 30px;
   right: 30px;
+  user-select: none;
 }
 
 .f-c-counter__incrementor {
@@ -83,15 +86,20 @@
 
 .f-c-label {
   display: block;
+  opacity: 0.5;
+  user-select: none;
 }
 
 .f-c-input {
   background-color: transparent;
-  border: 4px solid #fff;
+  border: 0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.8);
   color: #fff;
   width: 100%;
   margin-top: 1em;
-  padding: 20px;
+  padding-bottom: 10px;
+  font-size: 2em;
+  resize: none;
 }
 
 .f-c-input:focus {
@@ -99,16 +107,21 @@
 }
 
 .f-c-button {
-  background: #000;
+  background-color: #000;
+  border: 2px solid #000;
+  border-radius: 2em;
   color: #fff;
-  border: 0;
-  padding: 0.5em;
+  padding: 0.5em 1em;
   font-size: 1.5em;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
 }
 
 .f-c-button:disabled {
   opacity: 0.3;
+  background-color: transparent;
+  color: #000;
+  cursor: not-allowed;
 }
 
 .f-c-button--continue {

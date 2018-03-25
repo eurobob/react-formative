@@ -49,7 +49,7 @@ class FormativeReview extends React.Component {
                 className="f-c-list__item--review"
                 {...field}
                 key={index}
-                handleChange={event => this.handleChange(event, index)}
+                handleChange={event => this.props.handleChange(event, index)}
               />
             );
           })}
