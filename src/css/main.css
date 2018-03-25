@@ -98,12 +98,28 @@
   width: 100%;
   margin-top: 1em;
   padding-bottom: 10px;
-  font-size: 2em;
+  font-size: 1.5em;
   resize: none;
 }
 
 .f-c-input:focus {
   outline: none;
+}
+
+.f-c-label--radio {
+  font-size: 1.5em;
+  display: inline-block;
+  margin: 1em 2% 0 0;
+  padding: 0.5em 1em;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.f-c-label--radio.-checked {
+  background: #fff;
+  color: #c36;
 }
 
 .f-c-button {

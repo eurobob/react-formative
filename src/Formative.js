@@ -77,6 +77,7 @@ class Formative extends React.Component {
           fields={fields}
           className={`${this.props.className} f-c-form`}
           handleChange={this.handleChange}
+          onSubmit={this.props.onSubmit}
         />
       );
     }

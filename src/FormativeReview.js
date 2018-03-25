@@ -6,7 +6,7 @@ class FormativeReview extends React.Component {
   render() {
     return (
       <form className={this.props.className}>
-        <h2>Review</h2>
+        <h1>Review</h1>
         <ul className="f-c-list">
           {this.props.fields.map((field, index) => {
             return (
@@ -20,6 +20,12 @@ class FormativeReview extends React.Component {
             );
           })}
         </ul>
+        <button
+          className="f-c-button f-c-button--continue"
+          type="button"
+          onClick={this.props.onSubmit}>
+          Submit
+        </button>
       </form>
     );
   }
