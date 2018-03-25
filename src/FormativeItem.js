@@ -34,6 +34,8 @@ class FormativeItem extends React.Component {
   handleKeyPress(event) {
     // @TODO allow shift+enter for new line
     if (event.key == 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      event.stopPropagation();
       this.props.nextField();
     }
   }
@@ -65,16 +67,13 @@ class FormativeItem extends React.Component {
         {!this.props.options &&
           React.createElement(
             this.props.element,
-            Object.assign(
-              {
-                onKeyPress: this.handleKeyPress,
-                onChange: this.props.handleChange,
-                id: this.props.name,
-                className: 'f-c-input',
-                autoFocus: this.props.autoFocus
-              },
-              this.state.fieldProps,
-            ),
+            Object.assign(this.state.fieldProps, {
+              onKeyPress: this.handleKeyPress,
+              onChange: this.props.handleChange,
+              id: this.props.name,
+              className: 'f-c-input',
+              autoFocus: this.props.autoFocus,
+            }),
           )}
       </li>
     );
