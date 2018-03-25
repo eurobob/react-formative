@@ -7,6 +7,7 @@ import FormativeCounter from './FormativeCounter';
 import FormativeNavigation from './FormativeNavigation';
 import FormativeProgress from './FormativeProgress';
 import FormativeItem from './FormativeItem';
+import FormativeReview from './FormativeReview';
 
 const childFactoryCreator = classNames => child =>
   React.cloneElement(child, {
@@ -17,7 +18,7 @@ class Formative extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
+      index: 3,
       total: 0,
       fields: props.fields,
       animationClass: 'from-bottom',
@@ -30,14 +31,11 @@ class Formative extends React.Component {
   nextField() {
     // @TODO double check if user has gone back
     if (this.state.fields[this.state.index].value) {
-      let state = {
+      this.setState({
+        index: this.state.index + 1,
         total: this.state.total + 1,
         animationClass: 'from-bottom',
-      };
-      if (this.state.index < this.state.fields.length - 1) {
-        state.index = this.state.index + 1;
-      }
-      this.setState(state);
+      });
     }
   }
   prevField() {
@@ -72,6 +70,16 @@ class Formative extends React.Component {
   }
   render() {
     const { index, fields, total, animationClass } = this.state;
+
+    if (this.state.index === this.state.fields.length) {
+      return (
+        <FormativeReview
+          fields={fields}
+          className={`${this.props.className} f-c-form`}
+          handleChange={this.handleChange}
+        />
+      );
+    }
 
     return (
       <form className={`${this.props.className} f-c-form`}>

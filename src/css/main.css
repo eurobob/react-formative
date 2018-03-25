@@ -26,6 +26,10 @@
   position: absolute;
 }
 
+.f-c-list__item--review {
+  position: relative;
+}
+
 .f-c-counter {
   position: absolute;
   top: 30px;
