@@ -54,7 +54,7 @@ class FormativeItem extends React.Component {
             return React.createElement(
               'label',
               {
-                key,
+                key: `${this.props.name}-label-${key}`,
                 className: `f-c-label--radio ${selected ? '-checked' : ''}`,
                 onKeyPress: this.handleKeyPress,
               },
@@ -62,6 +62,7 @@ class FormativeItem extends React.Component {
                 React.createElement(
                   this.props.element,
                   Object.assign(option, {
+                    key: `${this.props.name}-input-${key}`,
                     type: 'radio',
                     name: this.props.name,
                     hidden: true,
@@ -69,7 +70,9 @@ class FormativeItem extends React.Component {
                     checked: selected ? true : false,
                   }),
                 ),
-                <span>{option.label}</span>,
+                <span key={`${this.props.name}-span-${key}`}>
+                  {option.label}
+                </span>,
               ],
             );
           })}
