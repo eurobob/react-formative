@@ -5,7 +5,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 5% 10% 5% 5%;
+  padding: 5% 10% 15% 5%;
 }
 
 .f-c-list {
@@ -13,16 +13,17 @@
   padding: 0;
   margin: 0;
   height: 100%;
-  width: 100%;
+  width: 95%;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 }
 
 .f-c-list__item {
   max-width: 500px;
-  width: 80%;
+  width: 100%;
   position: absolute;
 }
 
@@ -141,9 +142,15 @@
 }
 
 .f-c-button--continue {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
+  margin-top: 20px;
+}
+
+@media screen only and (min-width: 600px) {
+  .f-c-button--continue {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+  }
 }
 
 .f-a-from-bottom--enter {
