@@ -8,6 +8,12 @@
   padding: 5% 10% 15% 5%;
 }
 
+.f-c-form__inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .f-c-list {
   list-style: none;
   padding: 0;
@@ -153,10 +159,12 @@
   }
 }
 
+.f-a-from-bottom--appear,
 .f-a-from-bottom--enter {
   transform: translate(0, 200%);
   opacity: 0;
 }
+.f-a-from-bottom--appear-active,
 .f-a-from-bottom--enter-active {
   transform: translate(0, 0);
   opacity: 1;
