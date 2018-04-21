@@ -1,6 +1,6 @@
 {
   "name": "react-formative",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Display form items sequentially. It's like if Typeform had an illegitimate child with a slideshow.",
   "main": "lib/index.js",
   "scripts": {
