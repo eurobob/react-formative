@@ -1,7 +1,14 @@
+// @flow
+
 import React from 'react';
 
-function FormativeProgress(props) {
-  const percent = props.total / props.fields.length * 100;
+type Props = {
+  fields: Array<{ value: string }>,
+  total: number
+}
+
+function FormativeProgress({fields, total}: Props) {
+  const percent = total / fields.length * 100;
   return (
     <div className="f-c-progress">
       <div

@@ -1,12 +1,21 @@
+// @flow
+
 import React from 'react';
 
-function FormativeProgress(props) {
+type Props = {
+  fields: Array<{ value: string}>,
+  index: number,
+  total: number,
+  navigate: (key: number) => mixed,
+}
+
+function FormativeProgress({index, fields, navigate, total}: Props) {
   return (
     <ul className="f-c-navigation">
-      {props.fields.map((field, index) => {
+      {fields.map((field, key) => {
         const value = field.value;
-        const isCurrent = index === props.index;
-        const isActive = index === props.total;
+        const isCurrent = key === index;
+        const isActive = key === total;
         const isClickable = value || isActive;
         let color = 'rgba(0,0,0,0.15)';
 
@@ -20,8 +29,8 @@ function FormativeProgress(props) {
 
         return (
           <li
-            key={index}
-            onClick={() => isClickable && props.navigate(index)}
+            key={key}
+            onClick={() => isClickable && navigate(key)}
             className="f-c-navigation__item"
             style={{
               backgroundColor: color,

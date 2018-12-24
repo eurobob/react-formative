@@ -1,18 +1,45 @@
+// @flow
+
 import React from 'react';
-// import PropTypes from 'proptypes';
 
 const DOMExclusions = ['nextField', 'handleChange'];
 
-class FormativeItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fieldProps: this.validateFieldProps(props),
-    };
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+type Props = {
+  autoFocus: bool,
+  name: string,
+  label: string | bool,
+  value: string,
+  type: string,
+  element: string,
+  nextField?: () => mixed,
+  handleChange: (event: SyntheticKeyboardEvent<HTMLInputElement>) => mixed,
+  className: string,
+  options?: Array<{
+    value: string,
+    label: string,
+  }>
+};
+
+type State = {
+  fieldProps: {}
+}
+
+class FormativeItem extends React.Component<Props, State> {
+  state = {
+    fieldProps: this.validateFieldProps(this.props),
   }
 
-  componentWillReceiveProps(nextProps) {
+  static defaultProps = {
+    name: '',
+    label: false,
+    value: '',
+    type: 'text',
+    element: 'input',
+    autoFocus: true,
+    className: '',
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
     this.setState({
       fieldProps: this.validateFieldProps(nextProps),
     });
@@ -22,7 +49,7 @@ class FormativeItem extends React.Component {
     Since we are passing down props to a child component we need to remove
     Formative-specific props so they don't appear in the DOM
   */
-  validateFieldProps(props) {
+  validateFieldProps(props: Props) {
     return Object.keys(props).reduce((acc, key) => {
       if (key && DOMExclusions.indexOf(key) < 0) {
         return Object.assign(acc, { [key]: props[key] });
@@ -31,12 +58,12 @@ class FormativeItem extends React.Component {
     }, {});
   }
 
-  handleKeyPress(event) {
+  handleKeyPress = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     // @TODO allow shift+enter for new line
     if (event.key == 'Enter' && !event.shiftKey) {
       event.preventDefault();
       event.stopPropagation();
-      this.props.nextField();
+      this.props.nextField && this.props.nextField();
     }
   }
 
@@ -61,8 +88,8 @@ class FormativeItem extends React.Component {
               [
                 React.createElement(
                   this.props.element,
-                  Object.assign(option, {
-                    key: `${this.props.name}-input-${key}`,
+                  Object.assign({}, option, {
+                    key: `${this.props.name}-input-${key.toString()}`,
                     type: 'radio',
                     name: this.props.name,
                     hidden: true,
@@ -79,7 +106,7 @@ class FormativeItem extends React.Component {
         {!this.props.options &&
           React.createElement(
             this.props.element,
-            Object.assign(this.state.fieldProps, {
+            Object.assign({}, this.state.fieldProps, {
               onKeyPress: this.handleKeyPress,
               onChange: this.props.handleChange,
               id: this.props.name,
@@ -91,22 +118,5 @@ class FormativeItem extends React.Component {
     );
   }
 }
-
-// FormativeItem.propTypes = {
-//   name: PropTypes.string.isRequired,
-//   label: PropTypes.string,
-//   value: PropTypes.string,
-//   type: PropTypes.string,
-//   element: PropTypes.string,
-// };
-//
-// FormativeItem.defaultProps = {
-//   name: '',
-//   label: null,
-//   value: '',
-//   type: 'text',
-//   element: 'input',
-//   autoFocus: true,
-// };
 
 export default FormativeItem;

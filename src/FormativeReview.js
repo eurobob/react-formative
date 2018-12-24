@@ -1,20 +1,30 @@
+// @flow
+
 import React from 'react';
-// import PropTypes from 'proptypes';
+
 import FormativeItem from './FormativeItem';
 
-class FormativeReview extends React.Component {
+type Props = {
+  className: string,
+  fields: Array<{ value: string }>,
+  handleChange: (event: SyntheticKeyboardEvent<HTMLInputElement>, key: number) => mixed,
+  onSubmit: () => mixed
+}
+
+class FormativeReview extends React.Component<Props> {
   render() {
+    const { fields, className, handleChange, onSubmit } = this.props
     return (
-      <form className={this.props.className}>
+      <form className={className}>
         <h1>Review</h1>
         <ul className="f-c-list">
-          {this.props.fields.map((field, index) => {
+          {fields.map((field, key) => {
             return (
               <FormativeItem
                 className="f-c-list__item--review"
                 {...field}
-                key={index}
-                handleChange={event => this.props.handleChange(event, index)}
+                key={key}
+                handleChange={event => handleChange(event, key)}
                 autoFocus={false}
               />
             );
@@ -23,7 +33,7 @@ class FormativeReview extends React.Component {
         <button
           className="f-c-button f-c-button--continue"
           type="button"
-          onClick={this.props.onSubmit}>
+          onClick={onSubmit}>
           Submit
         </button>
       </form>

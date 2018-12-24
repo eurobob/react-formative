@@ -1,5 +1,6 @@
+// @flow
+
 import React from "react";
-// import PropTypes from "proptypes";
 import update from "immutability-helper";
 import { Transition, TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -14,22 +15,37 @@ const childFactoryCreator = classNames => child =>
     classNames
   });
 
-class Formative extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      index: 0,
-      total: 0,
-      fields: props.fields,
-      animationClass: "from-bottom",
-      review: false
-    };
-    this.nextField = this.nextField.bind(this);
-    this.prevField = this.prevField.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.navigate = this.navigate.bind(this);
+type Props = {
+  animated?: bool,
+  animation?: string,
+  className: string,
+  fields: Array<{ value: string }>,
+  onSubmit: () => mixed
+}
+
+type State = {
+  index: number,
+  total: number,
+  fields: Array<{ value: string }>,
+  animationClass: string,
+  review: bool
+}
+
+class Formative extends React.Component<Props, State> {
+  state = {
+    index: 0,
+    total: 0,
+    fields: this.props.fields,
+    animationClass: "from-bottom",
+    review: false
   }
-  nextField() {
+
+  static defaultProps = {
+    animated: false,
+    animation: "fade"
+  };
+
+  nextField = () => {
     // @TODO double check if user has gone back
     if (this.state.fields[this.state.index].value) {
       this.setState(
@@ -51,7 +67,7 @@ class Formative extends React.Component {
       );
     }
   }
-  prevField() {
+  prevField = () => {
     this.setState(
       {
         animationClass: "from-top"
@@ -63,16 +79,16 @@ class Formative extends React.Component {
       }
     );
   }
-  handleChange(event, index) {
+  handleChange = (event: SyntheticEvent<HTMLInputElement>, index: number) => {
     this.setState({
       fields: update(this.state.fields, {
         [index]: {
-          value: { $set: event.target.value }
+          value: { $set: event.currentTarget.value }
         }
       })
     });
   }
-  navigate(index) {
+  navigate = (index: number) => {
     let animationClass;
     if (index < this.state.index) {
       animationClass = "from-top";
@@ -159,15 +175,5 @@ class Formative extends React.Component {
     );
   }
 }
-
-// Formative.propTypes = {
-//   animated: PropTypes.bool,
-//   animation: PropTypes.string
-// };
-//
-// Formative.defaultProps = {
-//   animated: false,
-//   animation: "fade"
-// };
 
 export default Formative;
