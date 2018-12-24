@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "proptypes";
+// import PropTypes from "proptypes";
 import update from "immutability-helper";
 import { Transition, TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -160,14 +160,14 @@ class Formative extends React.Component {
   }
 }
 
-Formative.propTypes = {
-  animated: PropTypes.bool,
-  animation: PropTypes.string
-};
-
-Formative.defaultProps = {
-  animated: false,
-  animation: "fade"
-};
+// Formative.propTypes = {
+//   animated: PropTypes.bool,
+//   animation: PropTypes.string
+// };
+//
+// Formative.defaultProps = {
+//   animated: false,
+//   animation: "fade"
+// };
 
 export default Formative;

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'proptypes';
+// import PropTypes from 'proptypes';
 import FormativeItem from './FormativeItem';
 
 class FormativeReview extends React.Component {

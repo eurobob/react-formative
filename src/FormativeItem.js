@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'proptypes';
+// import PropTypes from 'proptypes';
 
 const DOMExclusions = ['nextField', 'handleChange'];
 
@@ -92,21 +92,21 @@ class FormativeItem extends React.Component {
   }
 }
 
-FormativeItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  value: PropTypes.string,
-  type: PropTypes.string,
-  element: PropTypes.string,
-};
-
-FormativeItem.defaultProps = {
-  name: '',
-  label: null,
-  value: '',
-  type: 'text',
-  element: 'input',
-  autoFocus: true,
-};
+// FormativeItem.propTypes = {
+//   name: PropTypes.string.isRequired,
+//   label: PropTypes.string,
+//   value: PropTypes.string,
+//   type: PropTypes.string,
+//   element: PropTypes.string,
+// };
+//
+// FormativeItem.defaultProps = {
+//   name: '',
+//   label: null,
+//   value: '',
+//   type: 'text',
+//   element: 'input',
+//   autoFocus: true,
+// };
 
 export default FormativeItem;
