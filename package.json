@@ -39,11 +39,11 @@
     "url": "https://github.com/eurobob/react-formative/issues"
   },
   "homepage": "https://github.com/eurobob/react-formative#readme",
-  "peerDependencies": {
+  "dependencies": {
     "immutability-helper": "^2.6.6",
-    "proptypes": "^1.1.0",
-    "react": "^16.2.0",
-    "react-transition-group": "^2.2.1"
+    "react-transition-group": "^2.5.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
