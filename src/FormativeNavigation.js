@@ -3,13 +3,13 @@
 import React from 'react';
 
 type Props = {
-  fields: Array<{ value: string}>,
+  fields: Array<{ value: string }>,
   index: number,
   total: number,
-  navigate: (key: number) => mixed,
-}
+  navigate: (key: number) => mixed
+};
 
-function FormativeProgress({index, fields, navigate, total}: Props) {
+function FormativeProgress({ index, fields, navigate, total }: Props) {
   return (
     <ul className="f-c-navigation">
       {fields.map((field, key) => {
@@ -33,7 +33,7 @@ function FormativeProgress({index, fields, navigate, total}: Props) {
             onClick={() => isClickable && navigate(key)}
             className="f-c-navigation__item"
             style={{
-              backgroundColor: color,
+              backgroundColor: color
             }}
           />
         );

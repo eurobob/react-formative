@@ -7,13 +7,16 @@ import FormativeItem from './FormativeItem';
 type Props = {
   className: string,
   fields: Array<{ value: string }>,
-  handleChange: (event: SyntheticKeyboardEvent<HTMLInputElement>, key: number) => mixed,
+  handleChange: (
+    event: SyntheticKeyboardEvent<HTMLInputElement>,
+    key: number
+  ) => mixed,
   onSubmit: () => mixed
-}
+};
 
 class FormativeReview extends React.Component<Props> {
   render() {
-    const { fields, className, handleChange, onSubmit } = this.props
+    const { fields, className, handleChange, onSubmit } = this.props;
     return (
       <form className={className}>
         <h1>Review</h1>
@@ -33,7 +36,8 @@ class FormativeReview extends React.Component<Props> {
         <button
           className="f-c-button f-c-button--continue"
           type="button"
-          onClick={onSubmit}>
+          onClick={onSubmit}
+        >
           Submit
         </button>
       </form>

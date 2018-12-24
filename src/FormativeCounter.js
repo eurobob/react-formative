@@ -5,7 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const childFactoryCreator = classNames => child =>
   React.cloneElement(child, {
-    classNames,
+    classNames
   });
 
 type Props = {
@@ -13,30 +13,33 @@ type Props = {
   fields: Array<{
     value: string
   }>,
-  animationClass: string,
-}
+  animationClass: string
+};
 
 function FormativeCounter(props: Props) {
-  const { animationClass, index, fields } = props
+  const { animationClass, index, fields } = props;
   if (index < fields.length) {
     return (
       <div className="f-c-counter">
         <TransitionGroup
           childFactory={childFactoryCreator(`f-a-${animationClass}-`)}
           component="span"
-          className="f-c-counter__incrementor">
-            <CSSTransition
-              key={index}
-              classNames={`f-a-${animationClass}-`}
-              timeout={500}
-              mountOnEnter={true}
-              unmountOnExit={true}>
-              <span className="f-c-counter__number">{index + 1}</span>
-            </CSSTransition>
+          className="f-c-counter__incrementor"
+        >
+          <CSSTransition
+            key={index}
+            classNames={`f-a-${animationClass}-`}
+            timeout={500}
+            mountOnEnter={true}
+            unmountOnExit={true}
+          >
+            <span className="f-c-counter__number">{index + 1}</span>
+          </CSSTransition>
         </TransitionGroup>
         <span>{` / ${fields.length}`}</span>
       </div>
-  )} else {
+    );
+  } else {
     return (
       <div className="f-c-counter">
         <span className="f-c-counter__incrementor">
@@ -44,8 +47,8 @@ function FormativeCounter(props: Props) {
         </span>
         <span>{` / ${fields.length}`}</span>
       </div>
-    )
-  };
+    );
+  }
 }
 
 export default FormativeCounter;

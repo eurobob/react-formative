@@ -5,9 +5,9 @@ import React from 'react';
 const DOMExclusions = ['nextField', 'handleChange'];
 
 type Props = {
-  autoFocus: bool,
+  autoFocus: boolean,
   name: string,
-  label: string | bool,
+  label: string | boolean,
   value: string,
   type: string,
   element: string,
@@ -16,18 +16,18 @@ type Props = {
   className: string,
   options?: Array<{
     value: string,
-    label: string,
+    label: string
   }>
 };
 
 type State = {
   fieldProps: {}
-}
+};
 
 class FormativeItem extends React.Component<Props, State> {
   state = {
-    fieldProps: this.validateFieldProps(this.props),
-  }
+    fieldProps: this.validateFieldProps(this.props)
+  };
 
   static defaultProps = {
     name: '',
@@ -36,12 +36,12 @@ class FormativeItem extends React.Component<Props, State> {
     type: 'text',
     element: 'input',
     autoFocus: true,
-    className: '',
-  }
+    className: ''
+  };
 
   componentWillReceiveProps(nextProps: Props) {
     this.setState({
-      fieldProps: this.validateFieldProps(nextProps),
+      fieldProps: this.validateFieldProps(nextProps)
     });
   }
 
@@ -65,7 +65,7 @@ class FormativeItem extends React.Component<Props, State> {
       event.stopPropagation();
       this.props.nextField && this.props.nextField();
     }
-  }
+  };
 
   render() {
     return (
@@ -83,7 +83,7 @@ class FormativeItem extends React.Component<Props, State> {
               {
                 key: `${this.props.name}-label-${key}`,
                 className: `f-c-label--radio ${selected ? '-checked' : ''}`,
-                onKeyPress: this.handleKeyPress,
+                onKeyPress: this.handleKeyPress
               },
               [
                 React.createElement(
@@ -94,13 +94,13 @@ class FormativeItem extends React.Component<Props, State> {
                     name: this.props.name,
                     hidden: true,
                     onChange: this.props.handleChange,
-                    checked: selected ? true : false,
-                  }),
+                    checked: selected ? true : false
+                  })
                 ),
                 <span key={`${this.props.name}-span-${key}`}>
                   {option.label}
-                </span>,
-              ],
+                </span>
+              ]
             );
           })}
         {!this.props.options &&
@@ -111,8 +111,8 @@ class FormativeItem extends React.Component<Props, State> {
               onChange: this.props.handleChange,
               id: this.props.name,
               className: 'f-c-input',
-              autoFocus: this.props.autoFocus,
-            }),
+              autoFocus: this.props.autoFocus
+            })
           )}
       </li>
     );
