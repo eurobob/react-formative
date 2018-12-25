@@ -2,11 +2,7 @@
 
 import React from 'react';
 import update from 'immutability-helper';
-import {
-  Transition,
-  TransitionGroup,
-  CSSTransition
-} from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import FormativeCounter from './FormativeCounter';
 import FormativeNavigation from './FormativeNavigation';
@@ -14,113 +10,126 @@ import FormativeProgress from './FormativeProgress';
 import FormativeItem from './FormativeItem';
 import FormativeReview from './FormativeReview';
 
-const childFactoryCreator = classNames => child =>
-  React.cloneElement(child, {
-    classNames
-  });
+const childFactoryCreator = classNames => child => React.cloneElement(child, {
+  classNames,
+});
 
 type Props = {
   animated?: boolean,
   animation?: string,
   className: string,
-  fields: Array<{ value: string }>,
-  onSubmit: () => mixed
+  fields: Array<{ value: string, name: string }>,
+  onSubmit: () => mixed,
 };
 
 type State = {
   index: number,
   total: number,
-  fields: Array<{ value: string }>,
+  fields: Array<{ value: string, name: string }>,
   animationClass: string,
-  review: boolean
+  review: boolean,
 };
 
 class Formative extends React.Component<Props, State> {
-  state = {
-    index: 0,
-    total: 0,
-    fields: this.props.fields,
-    animationClass: 'from-bottom',
-    review: false
-  };
-
   static defaultProps = {
     animated: false,
-    animation: 'fade'
+    animation: 'fade',
   };
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      index: 0,
+      total: 0,
+      fields: props.fields,
+      animationClass: 'from-bottom',
+      review: false,
+    };
+  }
 
   nextField = () => {
     // @TODO double check if user has gone back
-    if (this.state.fields[this.state.index].value) {
+    const { fields, index, total } = this.state;
+    if (fields[index].value) {
       this.setState(
         {
-          index: this.state.index + 1,
-          total: this.state.total + 1,
-          animationClass: 'from-bottom'
+          index: index + 1,
+          total: total + 1,
+          animationClass: 'from-bottom',
         },
         () => {
-          if (this.state.index === this.state.fields.length) {
+          if (index === fields.length) {
             const this2 = this;
             setTimeout(() => {
               this2.setState({
-                review: true
+                review: true,
               });
             }, 1000);
           }
-        }
+        },
       );
     }
   };
+
   prevField = () => {
+    const { index } = this.state;
     this.setState(
       {
-        animationClass: 'from-top'
+        animationClass: 'from-top',
       },
       () => {
         this.setState({
-          index: this.state.index - 1
+          index: index - 1,
         });
-      }
+      },
     );
   };
+
   handleChange = (event: SyntheticEvent<HTMLInputElement>, index: number) => {
+    const fields = this.state;
     this.setState({
-      fields: update(this.state.fields, {
+      fields: update(fields, {
         [index]: {
-          value: { $set: event.currentTarget.value }
-        }
-      })
+          value: { $set: event.currentTarget.value },
+        },
+      }),
     });
   };
-  navigate = (index: number) => {
+
+  navigate = (key: number) => {
+    const { index } = this.state;
     let animationClass;
-    if (index < this.state.index) {
+    if (key < index) {
       animationClass = 'from-top';
-    } else if (index > this.state.index) {
+    } else if (key > index) {
       animationClass = 'from-bottom';
     }
     this.setState({ index, animationClass });
   };
+
   render() {
-    const { index, fields, total, animationClass, review } = this.state;
+    const {
+      index, fields, total, animationClass, review,
+    } = this.state;
+    const { className, onSubmit } = this.props;
     const isFinished = index === fields.length;
 
     if (review) {
       return (
-        <TransitionGroup className={this.props.className}>
+        <TransitionGroup className={className}>
           <CSSTransition
             key={index}
             classNames="f-a-from-bottom-"
             timeout={500}
-            mountOnEnter={true}
-            unmountOnExit={true}
-            appear={true}
+            mountOnEnter
+            unmountOnExit
+            appear
           >
             <FormativeReview
               fields={fields}
-              className={`${this.props.className} f-c-form`}
+              className={`${className} f-c-form`}
               handleChange={this.handleChange}
-              onSubmit={this.props.onSubmit}
+              onSubmit={onSubmit}
             />
           </CSSTransition>
         </TransitionGroup>
@@ -128,17 +137,11 @@ class Formative extends React.Component<Props, State> {
     }
 
     return (
-      <form className={`${this.props.className} f-c-form`}>
+      <form className={`${className} f-c-form`}>
         <div
-          className={`f-c-form__inner ${
-            isFinished ? 'f-a-fade-exit f-a-fade-exit-active' : ''
-          }`}
+          className={`f-c-form__inner ${isFinished ? 'f-a-fade-exit f-a-fade-exit-active' : ''}`}
         >
-          <FormativeCounter
-            fields={fields}
-            index={index}
-            animationClass={animationClass}
-          />
+          <FormativeCounter fields={fields} index={index} animationClass={animationClass} />
           <FormativeProgress fields={fields} total={total} />
           <FormativeNavigation
             fields={fields}
@@ -156,8 +159,8 @@ class Formative extends React.Component<Props, State> {
                 key={index}
                 classNames={`f-a-${animationClass}-`}
                 timeout={500}
-                mountOnEnter={true}
-                unmountOnExit={true}
+                mountOnEnter
+                unmountOnExit
               >
                 <FormativeItem
                   {...fields[index]}
@@ -172,10 +175,7 @@ class Formative extends React.Component<Props, State> {
             className="f-c-button f-c-button--continue"
             type="button"
             onClick={this.nextField}
-            disabled={
-              this.state.fields[this.state.index] &&
-              !this.state.fields[this.state.index].value
-            }
+            disabled={fields[index] && !fields[index].value}
           >
             Continue
           </button>

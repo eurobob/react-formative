@@ -3,17 +3,19 @@
 import React from 'react';
 
 type Props = {
-  fields: Array<{ value: string }>,
+  fields: Array<{ value: string, name: string }>,
   index: number,
   total: number,
-  navigate: (key: number) => mixed
+  navigate: (key: number) => mixed,
 };
 
-function FormativeProgress({ index, fields, navigate, total }: Props) {
+function FormativeProgress({
+  index, fields, navigate, total,
+}: Props) {
   return (
     <ul className="f-c-navigation">
       {fields.map((field, key) => {
-        const value = field.value;
+        const { value, name } = field;
         const isCurrent = key === index;
         const isActive = key === total;
         const isClickable = value || isActive;
@@ -28,12 +30,13 @@ function FormativeProgress({ index, fields, navigate, total }: Props) {
         }
 
         return (
-          <li
-            key={key}
+          <button
+            type="button"
             onClick={() => isClickable && navigate(key)}
+            key={name}
             className="f-c-navigation__item"
             style={{
-              backgroundColor: color
+              backgroundColor: color,
             }}
           />
         );

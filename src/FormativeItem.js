@@ -4,29 +4,39 @@ import React from 'react';
 
 const DOMExclusions = ['nextField', 'handleChange'];
 
+/**
+  Since we are passing down props to a child component we need to remove
+  Formative-specific props so they don't appear in the DOM
+*/
+const validateFieldProps = props => Object.keys(props).reduce((acc, key) => {
+  if (key && DOMExclusions.indexOf(key) < 0) {
+    return Object.assign(acc, { [key]: props[key] });
+  }
+  return acc;
+}, {});
+
 type Props = {
-  autoFocus: boolean,
+  autoFocus?: boolean,
   name: string,
-  label: string | boolean,
-  value: string,
-  type: string,
+  label?: string | boolean,
+  value?: string,
   element: string,
-  nextField?: () => mixed,
+  nextField: () => mixed | null,
   handleChange: (event: SyntheticKeyboardEvent<HTMLInputElement>) => mixed,
   className: string,
-  options?: Array<{
+  options: Array<{
     value: string,
-    label: string
-  }>
+    label: string,
+  }>,
 };
 
 type State = {
-  fieldProps: {}
+  fieldProps: {},
 };
 
 class FormativeItem extends React.Component<Props, State> {
   state = {
-    fieldProps: this.validateFieldProps(this.props)
+    fieldProps: validateFieldProps(this.props),
   };
 
   static defaultProps = {
@@ -36,83 +46,75 @@ class FormativeItem extends React.Component<Props, State> {
     type: 'text',
     element: 'input',
     autoFocus: true,
-    className: ''
+    nextField: () => {},
+    className: '',
+    options: [],
   };
 
   componentWillReceiveProps(nextProps: Props) {
     this.setState({
-      fieldProps: this.validateFieldProps(nextProps)
+      fieldProps: validateFieldProps(nextProps),
     });
-  }
-
-  /**
-    Since we are passing down props to a child component we need to remove
-    Formative-specific props so they don't appear in the DOM
-  */
-  validateFieldProps(props: Props) {
-    return Object.keys(props).reduce((acc, key) => {
-      if (key && DOMExclusions.indexOf(key) < 0) {
-        return Object.assign(acc, { [key]: props[key] });
-      }
-      return acc;
-    }, {});
   }
 
   handleKeyPress = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     // @TODO allow shift+enter for new line
-    if (event.key == 'Enter' && !event.shiftKey) {
+    const { nextField } = this.props;
+    if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       event.stopPropagation();
-      this.props.nextField && this.props.nextField();
+      nextField();
     }
   };
 
   render() {
+    const {
+      className, label, name, options, value, handleChange, element, autoFocus,
+    } = this.props;
+    const { fieldProps } = this.state;
     return (
-      <li className={`${this.props.className} f-c-list__item`}>
-        {this.props.label && (
-          <label htmlFor={this.props.name} className="f-c-label">
-            {this.props.label}
+      <li className={`${className} f-c-list__item`}>
+        {label && (
+          <label htmlFor={name} className="f-c-label">
+            {label}
           </label>
         )}
-        {this.props.options &&
-          this.props.options.map((option, key) => {
-            const selected = option.value === this.props.value;
+        {!!options.length
+          && options.map((option) => {
+            const selected = option.value === value;
             return React.createElement(
               'label',
               {
-                key: `${this.props.name}-label-${key}`,
+                key: `${name}-label-${option.label}`,
                 className: `f-c-label--radio ${selected ? '-checked' : ''}`,
-                onKeyPress: this.handleKeyPress
+                onKeyPress: this.handleKeyPress,
               },
               [
                 React.createElement(
-                  this.props.element,
+                  element,
                   Object.assign({}, option, {
-                    key: `${this.props.name}-input-${key.toString()}`,
+                    key: `${name}-input-${option.label}`,
                     type: 'radio',
-                    name: this.props.name,
+                    name,
                     hidden: true,
-                    onChange: this.props.handleChange,
-                    checked: selected ? true : false
-                  })
+                    onChange: handleChange,
+                    checked: !!selected,
+                  }),
                 ),
-                <span key={`${this.props.name}-span-${key}`}>
-                  {option.label}
-                </span>
-              ]
+                <span key={`${name}-span-${option.label}`}>{option.label}</span>,
+              ],
             );
           })}
-        {!this.props.options &&
-          React.createElement(
-            this.props.element,
-            Object.assign({}, this.state.fieldProps, {
+        {!options.length
+          && React.createElement(
+            element,
+            Object.assign({}, fieldProps, {
               onKeyPress: this.handleKeyPress,
-              onChange: this.props.handleChange,
-              id: this.props.name,
+              onChange: handleChange,
+              id: name,
               className: 'f-c-input',
-              autoFocus: this.props.autoFocus
-            })
+              autoFocus,
+            }),
           )}
       </li>
     );

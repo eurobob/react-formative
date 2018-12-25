@@ -3,8 +3,8 @@
 import React from 'react';
 
 type Props = {
-  fields: Array<{ value: string }>,
-  total: number
+  fields: Array<{ value: string, name: string }>,
+  total: number,
 };
 
 function FormativeProgress({ fields, total }: Props) {
@@ -14,7 +14,7 @@ function FormativeProgress({ fields, total }: Props) {
       <div
         className="f-c-progress__inner"
         style={{
-          transform: `translate(${percent}%, 0)`
+          transform: `translate(${percent}%, 0)`,
         }}
       />
     </div>
