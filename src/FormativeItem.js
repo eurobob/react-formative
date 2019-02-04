@@ -56,8 +56,8 @@ class FormativeItem extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    const { options, review } = this.props;
-    if (options.length && !review) {
+    const { options } = this.props;
+    if (options.length) {
       window.addEventListener('keydown', this.handleKeyPress);
     }
   }
@@ -69,17 +69,25 @@ class FormativeItem extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    const { review } = this.props;
-    if (!review) {
+    const { options } = this.props;
+    if (options.length) {
       window.removeEventListener('keydown', this.handleKeyPress);
     }
   }
 
   handleKeyPress = (event: SyntheticKeyboardEvent<>) => {
-    const { options, handleOptionKeyPress, nextField } = this.props;
-    const alphabetIndex = alphabet.indexOf(event.key);
-    if (alphabetIndex !== -1 && alphabetIndex < options.length) {
-      handleOptionKeyPress(alphabetIndex);
+    const {
+      options, handleOptionKeyPress, nextField, review,
+    } = this.props;
+    if (!review) {
+      const alphabetIndex = alphabet.indexOf(event.key);
+      if (alphabetIndex !== -1 && alphabetIndex < options.length) {
+        handleOptionKeyPress(alphabetIndex);
+      } else if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        event.stopPropagation();
+        nextField();
+      }
     } else if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       event.stopPropagation();
