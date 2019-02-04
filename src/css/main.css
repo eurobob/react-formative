@@ -116,15 +116,28 @@
   outline: none;
 }
 
+.f-c-label--key {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  line-height: 1;
+  border: 1px solid;
+  font-size: 0.5em;
+  text-transform: uppercase;
+  padding: 0.2em 0.3em;
+  border-radius: 3px;
+}
+
 .f-c-label--radio {
   font-size: 1.5em;
   display: inline-block;
   margin: 1em 2% 0 0;
-  padding: 0.5em 1em;
+  padding: 0.5em 1.3em;
   border: 2px solid #fff;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  position: relative;
 }
 
 .f-c-label--radio.-checked {

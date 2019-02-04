@@ -2,7 +2,8 @@
 
 import React from 'react';
 
-const DOMExclusions = ['nextField', 'handleChange'];
+const DOMExclusions = ['nextField', 'handleChange', 'handleOptionKeyPress', 'review'];
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 /**
   Since we are passing down props to a child component we need to remove
@@ -19,10 +20,12 @@ type Props = {
   autoFocus?: boolean,
   name: string,
   label?: string | boolean,
+  review?: boolean,
   value?: string,
   element: string,
   nextField: () => mixed | null,
-  handleChange: (event: SyntheticKeyboardEvent<HTMLInputElement>) => mixed,
+  handleChange: (event: SyntheticKeyboardEvent<HTMLInputElement>, index: number) => mixed,
+  handleOptionKeyPress: (value: number) => mixed,
   className: string,
   options: Array<{
     value: string,
@@ -46,10 +49,18 @@ class FormativeItem extends React.Component<Props, State> {
     type: 'text',
     element: 'input',
     autoFocus: true,
+    review: false,
     nextField: () => {},
     className: '',
     options: [],
   };
+
+  componentDidMount() {
+    const { options, review } = this.props;
+    if (options.length && !review) {
+      window.addEventListener('keydown', this.handleKeyPress);
+    }
+  }
 
   componentWillReceiveProps(nextProps: Props) {
     this.setState({
@@ -57,10 +68,19 @@ class FormativeItem extends React.Component<Props, State> {
     });
   }
 
-  handleKeyPress = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
-    // @TODO allow shift+enter for new line
-    const { nextField } = this.props;
-    if (event.key === 'Enter' && !event.shiftKey) {
+  componentWillUnmount() {
+    const { review } = this.props;
+    if (!review) {
+      window.removeEventListener('keydown', this.handleKeyPress);
+    }
+  }
+
+  handleKeyPress = (event: SyntheticKeyboardEvent<>) => {
+    const { options, handleOptionKeyPress, nextField } = this.props;
+    const alphabetIndex = alphabet.indexOf(event.key);
+    if (alphabetIndex !== -1 && alphabetIndex < options.length) {
+      handleOptionKeyPress(alphabetIndex);
+    } else if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       event.stopPropagation();
       nextField();
@@ -80,7 +100,7 @@ class FormativeItem extends React.Component<Props, State> {
           </label>
         )}
         {!!options.length
-          && options.map((option) => {
+          && options.map((option, index) => {
             const selected = option.value === value;
             return React.createElement(
               'label',
@@ -102,6 +122,9 @@ class FormativeItem extends React.Component<Props, State> {
                   }),
                 ),
                 <span key={`${name}-span-${option.label}`}>{option.label}</span>,
+                <span key={`${name}-key-${option.label}`} className="f-c-label--key">
+                  {alphabet[index]}
+                </span>,
               ],
             );
           })}

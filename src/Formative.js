@@ -14,18 +14,25 @@ const childFactoryCreator = classNames => child => React.cloneElement(child, {
   classNames,
 });
 
+type Fields = Array<{
+  value: string,
+  name: string,
+  options: Array<{ label: string, value: string }>,
+}>;
+
 type Props = {
   animated?: boolean,
   animation?: string,
   className: string,
-  fields: Array<{ value: string, name: string }>,
-  onSubmit: () => mixed,
+  fields: Fields,
+  onSubmit: Fields => mixed,
+  submitText?: String,
 };
 
 type State = {
   index: number,
   total: number,
-  fields: Array<{ value: string, name: string }>,
+  fields: Fields,
   animationClass: string,
   review: boolean,
 };
@@ -34,6 +41,7 @@ class Formative extends React.Component<Props, State> {
   static defaultProps = {
     animated: false,
     animation: 'fade',
+    submitText: 'Submit',
   };
 
   constructor(props: Props) {
@@ -58,7 +66,7 @@ class Formative extends React.Component<Props, State> {
           animationClass: 'from-bottom',
         },
         () => {
-          if (index === fields.length) {
+          if (index === fields.length - 1) {
             const this2 = this;
             setTimeout(() => {
               this2.setState({
@@ -86,14 +94,29 @@ class Formative extends React.Component<Props, State> {
   };
 
   handleChange = (event: SyntheticEvent<HTMLInputElement>, index: number) => {
-    const fields = this.state;
-    this.setState({
-      fields: update(fields, {
-        [index]: {
-          value: { $set: event.currentTarget.value },
+    const { state } = this;
+    this.setState(
+      update(state, {
+        fields: {
+          [index]: {
+            value: { $set: event.currentTarget.value },
+          },
         },
       }),
+    );
+  };
+
+  handleOptionKeyPress = (value: number) => {
+    const { state } = this;
+    const { index } = state;
+    const newState = update(state, {
+      fields: {
+        [index]: {
+          value: { $set: state.fields[index].options[value].value },
+        },
+      },
     });
+    this.setState(newState);
   };
 
   navigate = (key: number) => {
@@ -111,7 +134,7 @@ class Formative extends React.Component<Props, State> {
     const {
       index, fields, total, animationClass, review,
     } = this.state;
-    const { className, onSubmit } = this.props;
+    const { className, onSubmit, submitText } = this.props;
     const isFinished = index === fields.length;
 
     if (review) {
@@ -129,7 +152,9 @@ class Formative extends React.Component<Props, State> {
               fields={fields}
               className={`${className} f-c-form`}
               handleChange={this.handleChange}
-              onSubmit={onSubmit}
+              onSubmit={() => onSubmit(fields)}
+              submitText={submitText}
+              handleOptionKeyPress={this.handleOptionKeyPress}
             />
           </CSSTransition>
         </TransitionGroup>
@@ -167,6 +192,7 @@ class Formative extends React.Component<Props, State> {
                   key={index}
                   nextField={this.nextField}
                   handleChange={event => this.handleChange(event, index)}
+                  handleOptionKeyPress={this.handleOptionKeyPress}
                 />
               </CSSTransition>
             )}

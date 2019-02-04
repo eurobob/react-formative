@@ -15,5 +15,10 @@
       }
     ],
     "react/require-default-props": [2, { "forbidDefaultForRequired": false }]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
   }
 }

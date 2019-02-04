@@ -2,8 +2,14 @@
 
 import React from 'react';
 
+type Fields = Array<{
+  value: string,
+  name: string,
+  options: Array<{ label: string, value: string }>,
+}>;
+
 type Props = {
-  fields: Array<{ value: string, name: string }>,
+  fields: Fields,
   index: number,
   total: number,
   navigate: (key: number) => mixed,

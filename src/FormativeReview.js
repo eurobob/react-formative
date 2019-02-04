@@ -8,11 +8,18 @@ type Props = {
   className: string,
   fields: Array<{ value: string, name: string }>,
   handleChange: (event: SyntheticKeyboardEvent<HTMLInputElement>, key: number) => mixed,
+  handleOptionKeyPress: (value: number) => mixed,
   onSubmit: () => mixed,
+  submitText: string,
 };
 
 function FormativeReview({
-  fields, className, handleChange, onSubmit,
+  fields,
+  className,
+  handleChange,
+  onSubmit,
+  submitText,
+  handleOptionKeyPress,
 }: Props) {
   return (
     <form className={className}>
@@ -24,12 +31,14 @@ function FormativeReview({
             {...field}
             key={field.name}
             handleChange={event => handleChange(event, key)}
+            handleOptionKeyPress={handleOptionKeyPress}
             autoFocus={false}
+            review
           />
         ))}
       </ul>
       <button className="f-c-button f-c-button--continue" type="button" onClick={onSubmit}>
-        Submit
+        {submitText}
       </button>
     </form>
   );
