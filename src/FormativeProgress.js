@@ -14,6 +14,7 @@ function FormativeProgress({ fields, total }: Props) {
       <div
         className="f-c-progress__inner"
         style={{
+          opacity: percent > 0 ? 1 : 0,
           transform: `translate(${percent}%, 0)`,
         }}
       />

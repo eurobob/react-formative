@@ -5,13 +5,14 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 5% 10% 15% 5%;
+  overflow: hidden;
 }
 
 .f-c-form__inner {
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding: 5% 10% 15% 5%;
 }
 
 .f-c-list {
@@ -91,7 +92,8 @@
   left: -100%;
   height: 100%;
   width: 100%;
-  transition: transform 0.3s ease-in-out;
+  opacity: 0;
+  transition: opacity 0s, transform 0.3s ease-in-out;
 }
 
 .f-c-label {
