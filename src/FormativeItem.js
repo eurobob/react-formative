@@ -68,13 +68,6 @@ class FormativeItem extends React.Component<Props, State> {
     });
   }
 
-  componentWillUnmount() {
-    const { options } = this.props;
-    if (options.length) {
-      window.removeEventListener('keydown', this.handleKeyPress);
-    }
-  }
-
   handleKeyPress = (event: SyntheticKeyboardEvent<>) => {
     const {
       options, handleOptionKeyPress, nextField, review,
@@ -86,18 +79,28 @@ class FormativeItem extends React.Component<Props, State> {
       } else if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
         event.stopPropagation();
+        window.removeEventListener('keydown', this.handleKeyPress);
         nextField();
       }
     } else if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       event.stopPropagation();
+      window.removeEventListener('keydown', this.handleKeyPress);
       nextField();
     }
   };
 
   render() {
     const {
-      className, label, name, options, value, handleChange, element, autoFocus,
+      className,
+      label,
+      name,
+      options,
+      value,
+      handleChange,
+      element,
+      autoFocus,
+      review,
     } = this.props;
     const { fieldProps } = this.state;
     return (
@@ -130,9 +133,11 @@ class FormativeItem extends React.Component<Props, State> {
                   }),
                 ),
                 <span key={`${name}-span-${option.label}`}>{option.label}</span>,
-                <span key={`${name}-key-${option.label}`} className="f-c-label--key">
-                  {alphabet[index]}
-                </span>,
+                !review && (
+                  <span key={`${name}-key-${option.label}`} className="f-c-label--key">
+                    {alphabet[index]}
+                  </span>
+                ),
               ],
             );
           })}
