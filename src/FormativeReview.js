@@ -23,23 +23,25 @@ function FormativeReview({
 }: Props) {
   return (
     <form className={className}>
-      <h1>Review</h1>
-      <ul className="f-c-list">
-        {fields.map((field, key) => (
-          <FormativeItem
-            className="f-c-list__item--review"
-            {...field}
-            key={field.name}
-            handleChange={event => handleChange(event, key)}
-            handleOptionKeyPress={handleOptionKeyPress}
-            autoFocus={false}
-            review
-          />
-        ))}
-      </ul>
-      <button className="f-c-button f-c-button--continue" type="button" onClick={onSubmit}>
-        {submitText}
-      </button>
+      <div className="f-c-form__inner">
+        <h1>Review</h1>
+        <ul className="f-c-list">
+          {fields.map((field, key) => (
+            <FormativeItem
+              className="f-c-list__item--review"
+              {...field}
+              key={field.name}
+              handleChange={event => handleChange(event, key)}
+              handleOptionKeyPress={handleOptionKeyPress}
+              autoFocus={false}
+              review
+            />
+          ))}
+        </ul>
+        <button className="f-c-button f-c-button--continue" type="button" onClick={onSubmit}>
+          {submitText}
+        </button>
+      </div>
     </form>
   );
 }
