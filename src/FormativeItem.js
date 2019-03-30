@@ -68,6 +68,13 @@ class FormativeItem extends React.Component<Props, State> {
     });
   }
 
+  componentWillUnmount() {
+    const { options } = this.props;
+    if (options.length) {
+      window.removeEventListener('keydown', this.handleKeyPress);
+    }
+  }
+
   handleKeyPress = (event: SyntheticKeyboardEvent<>) => {
     const {
       options, handleOptionKeyPress, nextField, review,
