@@ -5,9 +5,10 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run build:clean && npm run build:js && npm run build:css",
+    "build": "npm run build:clean && npm run build:js && npm run build:css && npm run build:assets",
     "build:clean": "rm -rf lib/*",
     "build:css": "cp src/css/*.css lib",
+    "build:assets": "cp -rf src/assets lib",
     "build:js": "node_modules/@babel/cli/bin/babel.js src --out-dir lib",
     "watch": "npm-watch"
   },
@@ -18,6 +19,14 @@
         "src/css"
       ],
       "extensions": "css"
+    },
+    "build:assets": {
+      "patterns": [
+        "src/assets"
+      ],
+      "extensions": [
+        "svg"
+      ]
     }
   },
   "babel": {
@@ -52,6 +61,7 @@
     "immutability-helper": "^2.6.6",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-svg": "^8.0.6",
     "react-transition-group": "^2.5.2"
   },
   "devDependencies": {

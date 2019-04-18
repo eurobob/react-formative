@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import Upload from './assets/svg/upload.svg';
 
 const DOMExclusions = ['nextField', 'handleChange', 'handleOptionKeyPress', 'review'];
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
@@ -10,6 +11,9 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
   Formative-specific props so they don't appear in the DOM
 */
 const validateFieldProps = props => Object.keys(props).reduce((acc, key) => {
+  if (key === 'value' && props.type === 'file') {
+    return acc;
+  }
   if (key && DOMExclusions.indexOf(key) < 0) {
     return Object.assign(acc, { [key]: props[key] });
   }
@@ -22,6 +26,10 @@ type Props = {
   label?: string | boolean,
   review?: boolean,
   value?: string,
+  type?: string,
+  file: {
+    preview: string,
+  },
   element: string,
   nextField: () => mixed | null,
   handleChange: (event: SyntheticKeyboardEvent<HTMLInputElement>, index: number) => mixed,
@@ -34,7 +42,11 @@ type Props = {
 };
 
 type State = {
-  fieldProps: {},
+  fieldProps: {
+    file: {
+      name: any,
+    },
+  },
 };
 
 class FormativeItem extends React.Component<Props, State> {
@@ -108,6 +120,8 @@ class FormativeItem extends React.Component<Props, State> {
       element,
       autoFocus,
       review,
+      file,
+      type,
     } = this.props;
     const { fieldProps } = this.state;
     return (
@@ -148,17 +162,35 @@ class FormativeItem extends React.Component<Props, State> {
               ],
             );
           })}
-        {!options.length
-          && React.createElement(
-            element,
-            Object.assign({}, fieldProps, {
-              onKeyPress: this.handleKeyPress,
-              onChange: handleChange,
-              id: name,
-              className: 'f-c-input',
-              autoFocus,
-            }),
-          )}
+        {!options.length && (
+          <div style={{ marginTop: '20px' }}>
+            {type === 'file' && (
+              <label htmlFor={name} className="f-c-label--file">
+                {file && (
+                  <img
+                    src={window.URL.createObjectURL(file)}
+                    alt=""
+                    style={{ width: 'auto' }}
+                    className="f-c-label--img"
+                  />
+                )}
+                <div className="f-c-label--overlay" style={{ opacity: file ? 0 : 1 }}>
+                  <img src={Upload} alt="" style={{ width: '100px' }} />
+                </div>
+              </label>
+            )}
+            {React.createElement(
+              element,
+              Object.assign({}, fieldProps, {
+                onKeyPress: this.handleKeyPress,
+                onChange: handleChange,
+                id: name,
+                className: 'f-c-input',
+                autoFocus,
+              }),
+            )}
+          </div>
+        )}
       </li>
     );
   }

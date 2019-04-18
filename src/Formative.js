@@ -16,6 +16,9 @@ const childFactoryCreator = classNames => child => React.cloneElement(child, {
 
 type Fields = Array<{
   value: string,
+  file: {
+    name: string,
+  },
   name: string,
   options: Array<{ label: string, value: string }>,
 }>;
@@ -94,12 +97,18 @@ class Formative extends React.Component<Props, State> {
   };
 
   handleChange = (event: SyntheticEvent<HTMLInputElement>, index: number) => {
+    let { value } = event.currentTarget;
+    let destination = 'value';
+    if (event.currentTarget.files.length) {
+      [value] = event.currentTarget.files;
+      destination = 'file';
+    }
     const { state } = this;
     this.setState(
       update(state, {
         fields: {
           [index]: {
-            value: { $set: event.currentTarget.value },
+            [destination]: { $set: value },
           },
         },
       }),
